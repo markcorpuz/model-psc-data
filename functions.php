@@ -268,3 +268,21 @@ function ea_template_hierarchy( $template ) {
 	return $template;
 }
 add_filter( 'template_include', 'ea_template_hierarchy' );
+
+
+/**
+ * Adjust number of posts shown
+ *
+ */
+function limit_posts_per_archive_page( $query ) {
+
+	if ( $query->is_post_type_archive( 'profile' ) ) {
+		$limit = 100;
+	} else {
+		$limit = get_option('posts_per_page');
+	}
+
+	$query->set( 'posts_per_archive_page', $limit );
+
+}
+add_action( 'pre_get_posts', 'limit_posts_per_archive_page' );
